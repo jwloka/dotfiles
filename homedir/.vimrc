@@ -289,15 +289,15 @@ vnoremap <silent> <leader>es :EsformatterVisual<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"let NERDTreeShowHidden=1
-"let NERDTreeIgnore=['\.DS_Store$']
+let NERDTreeShowHidden=1
+let NERDTreeIgnore=['\.DS_Store$']
 "" auto open if no file sent as arg
-"autocmd StdinReadPre * let s:std_in=1
-"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 "" Toggle NERDtree with C-n
-"map ,n <plug>NERDTreeTabsToggle<CR>
+map ,n <plug>NERDTreeTabsToggle<CR>
 "" Autoclose if only NERDtree is left
-"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " netrw (default installed alt for NERDTree)
@@ -339,3 +339,5 @@ let g:syntastic_pug_checkers = ['jade','pug']
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:sneak#streak = 1
 let g:airline_theme='bubblegum'
+
+set rtp+=/usr/local/opt/fzf

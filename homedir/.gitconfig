@@ -1,9 +1,9 @@
 [user]
-  name = GITHUBFULLNAME
-  email = GITHUBEMAIL
+  name = Jan Wloka
+  email = jan.wloka@quatico.com
 [github]
   # https://github.com/blog/180-local-github-config
-  user = GITHUBUSER
+  user = jwloka
 [color]
 # ui = true is a superset of all the more specific color options
 #  as documented at http://book.git-scm.com/5_customizing_git.html
@@ -64,6 +64,7 @@
   s = status -s -u
   cl = log --stat -C -2
   c = commit
+  ci = commit
   dh = diff HEAD
   dc = diff --staged
   dw = diff --word-diff
@@ -181,7 +182,7 @@
 
 [credential]
     # cache creds (git help credential-cache)
-  helper = cache
+	helper = osxkeychain
 
 [filter "tabspace"]
   clean = expand -t 4

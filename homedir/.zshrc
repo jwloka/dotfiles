@@ -1,5 +1,6 @@
 # Path to your oh-my-zsh configuration.
 export ZSH=$HOME/.dotfiles/oh-my-zsh
+export PATH=./node_modules/.bin:$PATH
 # if you want to use this, change your non-ascii font to Droid Sans Mono for Awesome
 # POWERLEVEL9K_MODE='awesome-patched'
 export ZSH_THEME="powerlevel9k/powerlevel9k"
@@ -16,6 +17,9 @@ POWERLEVEL9K_NVM_BACKGROUND='072'
 POWERLEVEL9K_SHOW_CHANGESET=true
 #export ZSH_THEME="random"
 
+###
+###
+
 # Set to this to use case-sensitive completion
 export CASE_SENSITIVE="true"
 
@@ -30,9 +34,12 @@ export DISABLE_AUTO_TITLE="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.dotfiles/oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(colorize compleat dirpersist autojump git gulp history cp)
+plugins=(colorize compleat dirpersist autojump history cp brew chucknorris common-aliases docker encode64 git gitfast git-extras git-flow gradle jira mvn node npm osx sublime sudo vscode yarn)
 
 source $ZSH/oh-my-zsh.sh
+
+source /usr/local/opt/nvm/nvm.sh
+source ~/.dotfiles/docker-aliases.sh
 
 autoload -U add-zsh-hook
 
@@ -51,8 +58,35 @@ load-nvmrc() {
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
 
+# zsh completions
+#plugins=(… zsh-completions)
+autoload -U compinit && compinit
+
+# set java home
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
+
 # Customize to your needs...
 unsetopt correct
 
 # run fortune on new terminal :)
 fortune
+
+fpath=(/usr/local/share/zsh-completions $fpath)
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source "/usr/local/opt/zsh-git-prompt/zshrc.sh"
+source /usr/local/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/local/share/zsh-navigation-tools/zsh-navigation-tools.plugin.zsh
+
+function options() {
+    PLUGIN_PATH="$HOME/.dotfiles/oh-my-zsh/plugins/"
+    for plugin in $plugins; do
+        echo "\n\nPlugin: $plugin"; grep -r "^function \w*" $PLUGIN_PATH$plugin | awk '{print $2}' | sed 's/()//'| tr '\n' ', '; grep -r "^alias" $PLUGIN_PATH$plugin | awk '{print $2}' | sed 's/=.*//' |  tr '\n' ', '
+    done
+}
+
+# aliasses
+alias lz='lazygit'
