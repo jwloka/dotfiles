@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh configuration.
 export ZSH=$HOME/.dotfiles/oh-my-zsh
-export PATH=./node_modules/.bin:$PATH
+export PATH=./node_modules/.bin:/usr/local/opt/ruby/bin:$PATH
 # if you want to use this, change your non-ascii font to Droid Sans Mono for Awesome
 # POWERLEVEL9K_MODE='awesome-patched'
 export ZSH_THEME="powerlevel9k/powerlevel9k"
@@ -90,3 +90,7 @@ function options() {
 
 # aliasses
 alias lz='lazygit'
+alias yd='yarn dist'
+alias yw='yarn watch'
+alias yc='yarn clean'
+alias gc='git clean -fdx'
