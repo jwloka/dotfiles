@@ -97,3 +97,5 @@ alias yl='yarn lint'
 alias yli='yarn link'
 alias yuli='yarn unlink'
 alias gc='git clean -fdx'
+alias go='git open'
+
