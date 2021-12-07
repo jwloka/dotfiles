@@ -1,11 +1,7 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-**Table of Contents** _generated with [DocToc](https://github.com/thlorenz/doctoc)_
-
 - [Release History](#release-history)
-  - [v5.12.0](#v5120)
-  - [v5.2.0](#v520)
   - [v5.1.0](#v510)
   - [v5.0.0](#v500)
   - [v4.4.2](#v442)
@@ -77,8 +73,8 @@
 - fix passwordless sudo for Sierra (optional)
 - prompt to overwrite /etc/hosts with someonewhocares.org hosts file (saved in ./configs/hosts in this project)
 - fix default wallpaper in Sierra (Sierra 2)
-- remove sudden motion disable (already disabled: https://github.com/mathiasbynens/dotfiles/pull/755/files)
-- no longer setting hibernation mode to 0 (leaving default 3): https://github.com/mathiasbynens/dotfiles/commit/a3f91f67e07b6b31760b52320e0e890f93ff4e97#commitcomment-20715991
+- remove sudden motion disable (already disabled: <https://github.com/mathiasbynens/dotfiles/pull/755/files>)
+- no longer setting hibernation mode to 0 (leaving default 3): <https://github.com/mathiasbynens/dotfiles/commit/a3f91f67e07b6b31760b52320e0e890f93ff4e97#commitcomment-20715991>
 
 ## v4.3.0
 
@@ -139,19 +135,19 @@
 ## v3.2.0
 
 - adjust solarized theme to fix issue with rendering `mocha` test output
-- https://github.com/mochajs/mocha/issues/802
+- <https://github.com/mochajs/mocha/issues/802>
 - now `008` color is light grey instead of matching the solarized background color
 
 ## v3.1.0
 
 - new vim plugins
-- https://github.com/justinmk/vim-sneak
-- https://github.com/airblade/vim-gitgutter
-- https://github.com/tpope/vim-surround
-- https://github.com/dkprice/vim-easygrep
-- https://github.com/sjl/gundo.vim
+- <https://github.com/justinmk/vim-sneak>
+- <https://github.com/airblade/vim-gitgutter>
+- <https://github.com/tpope/vim-surround>
+- <https://github.com/dkprice/vim-easygrep>
+- <https://github.com/sjl/gundo.vim>
 - vim textwidth now `120`
-- fonts now installed via brew cask (where possible)
+- fonts now installed via brew (where possible)
 - thanks to @michielrensen [9db1d074](https://github.com/michielrensen/dotfiles/commit/9db1d0740eeb6df767be0f13c4706cd45c8d527f)
 - now automatically installing vim plugins
 - thanks to @michielrensen [b668fd56](https://github.com/michielrensen/dotfiles/commit/b668fd56673e12845215706cbb812f749604a3cc)
@@ -167,7 +163,7 @@
 - upgrade node to `4.4.7`
 - compile YouCompleteMe for code completion in vim:
 
-```
+ ```
 cd ~/.vim/bundle/YouCompleteMe
 ./install.py --all
 ```
