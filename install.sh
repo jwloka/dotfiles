@@ -215,12 +215,6 @@ fi
 mkdir -p ~/Library/Caches/Homebrew/Formula
 brew doctor
 
-# install cask drivers
-brew tap homebrew/cask-drivers
-
-# install cask version
-brew tap homebrew/cask-versions
-
 # skip those GUI clients, git command-line all the way
 # git is now included with macos terminal
 #require_brew git
@@ -291,7 +285,6 @@ if [[ $response =~ (y|yes|Y) ]];then
   # need fontconfig to install/build fonts
   require_brew fontconfig
   ./fonts/install.sh
-  brew tap homebrew/cask-fonts
   require_brew svn #required for roboto
   require_cask font-fontawesome
   require_cask font-awesome-terminal-fonts
