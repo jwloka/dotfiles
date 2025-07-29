@@ -184,6 +184,8 @@
 [credential]
     # cache creds (git help credential-cache)
 	helper = osxkeychain
+	helper = 
+	helper = /usr/local/share/gcm-core/git-credential-manager
 
 [filter "tabspace"]
   clean = expand -t 4
@@ -199,3 +201,5 @@
 
 [pull]
 	rebase = true
+[credential "https://dev.azure.com"]
+	useHttpPath = true
