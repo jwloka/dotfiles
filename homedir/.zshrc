@@ -72,6 +72,9 @@ load-nvmrc() {
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
 
+# load ssh keys (commit signing) from the macOS Keychain after a restart
+[[ $OSTYPE == darwin* ]] && ! ssh-add -l &>/dev/null && ssh-add --apple-load-keychain -q 2>/dev/null
+
 # zsh completions
 if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
