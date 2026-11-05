@@ -41,7 +41,7 @@ export DISABLE_AUTO_TITLE="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.dotfiles/oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(colorize compleat dirpersist autojump history cp brew chucknorris common-aliases docker encode64 git gitfast git-extras git-flow gradle jira mvn node npm sublime sudo vscode yarn)
+plugins=(colorize compleat dirpersist autojump history cp brew chucknorris common-aliases docker encode64 git gitfast git-extras git-flow gradle jira mvn node npm macos sublime sudo vscode yarn)
 export ZSH=$HOME/.dotfiles/oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 source ~/.dotfiles/docker-aliases.sh
@@ -121,6 +121,16 @@ alias omc='node ~/.claude/plugins/cache/omc/oh-my-claudecode/4.9.3/scripts/run.c
 alias lz='lazygit'
 alias gc='git clean -fdx -e .claude -e .cursor'
 alias go='git open'
+
+# yarn shortcuts. These follow the `yarn` plugin's own aliases deliberately:
+# the plugin defines yd as `yarn dev` and yw as `yarn workspace`, and these
+# redefine both to the project commands used here.
+alias yd='yarn dist'
+alias yw='yarn watch'
+alias yc='yarn clean'
+alias yl='yarn lint'
+alias yli='yarn link'
+alias yuli='yarn unlink'
 
 export PATH="/opt/homebrew/sbin:$PATH"
 
