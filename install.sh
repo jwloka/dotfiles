@@ -264,6 +264,17 @@ if [[ $response =~ (y|yes|Y) ]]; then
   done
 
   popd > /dev/null 2>&1
+
+  running "~/.config/zed/settings.json"
+  mkdir -p ~/.config/zed
+  if [[ -e ~/.config/zed/settings.json && ! -L ~/.config/zed/settings.json ]]; then
+      mkdir -p ~/.dotfiles_backup/$now
+      mv ~/.config/zed/settings.json ~/.dotfiles_backup/$now/zed-settings.json
+      echo "backup saved as ~/.dotfiles_backup/$now/zed-settings.json"
+  fi
+  unlink ~/.config/zed/settings.json > /dev/null 2>&1
+  ln -s ~/.dotfiles/configs/zed/settings.json ~/.config/zed/settings.json
+  echo -en '\tlinked';ok
 fi
 
 bot "VIM Setup"

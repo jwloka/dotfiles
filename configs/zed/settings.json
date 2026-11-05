@@ -1,0 +1,5 @@
+{
+  "restore_on_startup": "last_session",
+  "session": { "restore_unsaved_buffers": true },
+  "autosave": { "after_delay": { "milliseconds": 1000 } }
+}
