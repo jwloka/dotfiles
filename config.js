@@ -126,7 +126,8 @@ module.exports = {
     "oniguruma",
     "openconnect",
     "openexr",
-    "openjdk",
+    // openjdk: pulled in by maven, not installed directly. JDK versions are
+    // managed by SDKMAN (see the end of homedir/.zshrc).
     "openjpeg",
     "p11-kit",
     "pango",
