@@ -258,6 +258,7 @@ module.exports = {
     "synology-chat",
     "synology-drive",
     "telegram",
+    "termius",
     "the-unarchiver",
     "tor-browser",
     "visual-studio-code",

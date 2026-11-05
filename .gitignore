@@ -4,6 +4,7 @@
 ._*
 .git_template/hooks/disabled-pc
 id_rsa
+.omc
 # desktop image backups
 img/*.backup.jpg
 node_modules
