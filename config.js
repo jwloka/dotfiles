@@ -45,19 +45,18 @@ module.exports = {
     "giflib",
     "gifsicle",
     "git",
-    "git-credential-manager",
     "git-open",
     "glib",
     "glog",
     "gmp",
     "gnu-getopt",
-    "gnu-sed --with-default-names",
+    "gnu-sed",
     "gnupg",
     "gnutls",
     "gobject-introspection",
     "graphite2",
     "graphviz",
-    "grep --with-default-names", // upgrade grep so we can get things like inverted match (-v)
+    "grep", // upgrade grep so we can get things like inverted match (-v)
     "gts",
     "guile",
     "harfbuzz",
@@ -155,11 +154,11 @@ module.exports = {
     "ttyrec",
     "unbound",
     "utf8proc",
-    "vim --with-client-server --with-override-system-vi", // better, more recent vim
+    "vim", // better, more recent vim
     "watch",
     "watchman",
     "webp",
-    "wget --enable-iri", // Install wget with IRI support
+    "wget", // Install wget with IRI support
     "x265",
     "xmlto",
     "xorgproto",
@@ -208,7 +207,6 @@ module.exports = {
     "font-hack",
     "font-hack-nerd-font",
     "font-ia-writer-duo",
-    "font-ia-writer-duospace",
     "font-ia-writer-mono",
     "font-ia-writer-quattro",
     "font-inconsolata-dz-for-powerline",
