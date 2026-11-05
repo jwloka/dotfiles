@@ -1,6 +1,7 @@
 [user]
   name = Jan Wloka
   email = jan.wloka@quatico.com
+	signingkey = /Users/jwloka/.ssh/id_ed25519.pub
 [github]
   # https://github.com/blog/180-local-github-config
   user = jwloka
@@ -41,15 +42,17 @@
   quotepath = false
   # line endings
   # force LF during add
-  autocrlf = input
+	autocrlf = input
   # autocrlf = true # for windows to convert to CRLF on checkout and LF on add
   # warn but allow line ending conversion to proceed
-  safecrlf = warn
+	safecrlf = warn
   # prevent crlf (then you will have to deal with the problem -- dos2unix, etc)
   #safecrlf = true
   editor = vim
 	ignorecase = false
+	longpaths = true
   #editor = subl -w
+    pager = delta
 
 [alias]
   # most commonly used
@@ -152,6 +155,8 @@
   sno = show --name-only
   logsimple = log --graph --abbrev-commit --pretty=oneline --all --decorate
   again = !git commit -a -m \"😭 once more, with feeling\" && git push
+	clean-safe = clean -fdx -e .claude -e .cursor
+	clean-ignored = clean -fdX
 [apply]
   whitespace = nowarn
 
@@ -168,12 +173,23 @@
 [init]
   templatedir = ~/.dotfiles/.git_template
 
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true  # use n and N to move between diff sections
+  dark = true      # or light = true, or omit for auto-detection
+
 [merge]
     tool = vscode
+     conflictStyle = zdiff3
+
 [mergetool "vscode"]
     cmd = code --wait $MERGED
+
 [diff]
     tool = vscode
+
 [difftool "vscode"]
     cmd = code --wait --diff $LOCAL $REMOTE
 
@@ -191,8 +207,9 @@
   clean = expand -t 4
 
 [push]
-	default = current
+	default = simple
 	followTags = true
+	autoSetupRemote = true
 
 [filter "media"]
   required = true
@@ -201,5 +218,14 @@
 
 [pull]
 	rebase = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
 [credential "https://dev.azure.com"]
 	useHttpPath = true
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
