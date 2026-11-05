@@ -1,9 +1,25 @@
 # Path to your oh-my-zsh configuration.
-export PATH=/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH
+# HOMEBREW LIVES AT A DIFFERENT PREFIX PER ARCHITECTURE: /opt/homebrew on
+# Apple silicon, /usr/local on Intel. Every path below is built from
+# $BREW_PREFIX so one file serves both.
+if [ -x /opt/homebrew/bin/brew ]; then
+  BREW_PREFIX=/opt/homebrew
+elif [ -x /usr/local/bin/brew ]; then
+  BREW_PREFIX=/usr/local
+else
+  BREW_PREFIX=/opt/homebrew   # absent: paths below simply do not match
+fi
+export BREW_PREFIX
+
+# `src` sources a file only when it is readable, so a formula that is not
+# installed on this machine costs a no-op instead of an error at every prompt.
+src() { [ -r "$1" ] && source "$1"; return 0; }
+
+export PATH=${BREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH
 export PATH=./node_modules/.bin:/usr/local/opt/ruby/bin:$PATH
-export PATH=/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH
-export PATH=/opt/homebrew/opt/apr-util/bin:$PATH
-export PATH=/opt/homebrew/opt/findutils/libexec/gnubin:$PATH
+export PATH=${BREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH
+export PATH=${BREW_PREFIX}/opt/apr-util/bin:$PATH
+export PATH=${BREW_PREFIX}/opt/findutils/libexec/gnubin:$PATH
 # (removed: Homebrew openjdk 26 on PATH — JDK now managed by SDKMAN, see bottom of file)
 # (removed: $JAVA_HOME was never set, so this prepended "/bin" to PATH)
 export PATH=$HOME/.local/bin:$PATH
@@ -49,17 +65,17 @@ source ~/.dotfiles/docker-aliases.sh
 autoload -U add-zsh-hook
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+[ -s "${BREW_PREFIX}/opt/nvm/nvm.sh" ] && \. "${BREW_PREFIX}/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "${BREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] && \. "${BREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # For pkg-config to find apr-util you may need to set:
-export PKG_CONFIG_PATH="/opt/homebrew/opt/apr-util/lib/pkgconfig"
+export PKG_CONFIG_PATH="${BREW_PREFIX}/opt/apr-util/lib/pkgconfig"
 # To use the DocBook package in your XML toolchain,
-export XML_CATALOG_FILES="/opt/homebrew/etc/xml/catalog"
+export XML_CATALOG_FILES="${BREW_PREFIX}/etc/xml/catalog"
 
-export GUILE_LOAD_PATH="/opt/homebrew/share/guile/site/3.0"
-export GUILE_LOAD_COMPILED_PATH="/opt/homebrew/lib/guile/3.0/site-ccache"
-export GUILE_SYSTEM_EXTENSIONS_PATH="/opt/homebrew/lib/guile/3.0/extensions"
+export GUILE_LOAD_PATH="${BREW_PREFIX}/share/guile/site/3.0"
+export GUILE_LOAD_COMPILED_PATH="${BREW_PREFIX}/lib/guile/3.0/site-ccache"
+export GUILE_SYSTEM_EXTENSIONS_PATH="${BREW_PREFIX}/lib/guile/3.0/extensions"
 
 
 load-nvmrc() {
@@ -94,13 +110,13 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /opt/homebrew/share/zsh-navigation-tools/zsh-navigation-tools.plugin.zsh
-source "/opt/homebrew/opt/zsh-git-prompt/zshrc.sh"
-source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+[ -f ${BREW_PREFIX}/etc/profile.d/autojump.sh ] && . ${BREW_PREFIX}/etc/profile.d/autojump.sh
+src ${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+src ${BREW_PREFIX}/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+src ${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+src ${BREW_PREFIX}/share/zsh-navigation-tools/zsh-navigation-tools.plugin.zsh
+src "${BREW_PREFIX}/opt/zsh-git-prompt/zshrc.sh"
+src ${BREW_PREFIX}/share/powerlevel10k/powerlevel10k.zsh-theme
 
 
 function options() {
@@ -132,7 +148,7 @@ alias yl='yarn lint'
 alias yli='yarn link'
 alias yuli='yarn unlink'
 
-export PATH="/opt/homebrew/sbin:$PATH"
+export PATH="${BREW_PREFIX}/sbin:$PATH"
 
 # Added by Antigravity
 export PATH="/Users/jwloka/.antigravity/antigravity/bin:$PATH"

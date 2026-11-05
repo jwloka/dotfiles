@@ -5,7 +5,16 @@ typeset -U fpath
 # In .zshenv statt .zshrc, damit auch nicht-interaktive Shells ihn kennen (Board, Skripte).
 export PLOT_BUDGET_ACCOUNT=jwloka
 
-export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/opt/homebrew/share/zsh-syntax-highlighting/highlighters
+# The highlighters directory follows Homebrew's prefix, which differs between
+# Apple silicon and Intel. Set only when the directory exists: a value naming a
+# missing path makes zsh-syntax-highlighting abort instead of fall back.
+for _hl in /opt/homebrew /usr/local; do
+  if [ -d "$_hl/share/zsh-syntax-highlighting/highlighters" ]; then
+    export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR="$_hl/share/zsh-syntax-highlighting/highlighters"
+    break
+  fi
+done
+unset _hl
 
 # NODE COMES FROM NVM IN NON-LOGIN SHELLS TOO — `zsh -c 'node …'`, which is the
 # shape most tooling spawns.

@@ -1,7 +1,6 @@
 [user]
   name = Jan Wloka
   email = jan.wloka@quatico.com
-	signingkey = /Users/jwloka/.ssh/id_ed25519.pub
 [github]
   # https://github.com/blog/180-local-github-config
   user = jwloka
@@ -200,8 +199,6 @@
 [credential]
     # cache creds (git help credential-cache)
 	helper = osxkeychain
-	helper = 
-	helper = /usr/local/share/gcm-core/git-credential-manager
 
 [filter "tabspace"]
   clean = expand -t 4
@@ -227,10 +224,17 @@
 	format = ssh
 [gpg "ssh"]
 	allowedSignersFile = ~/.ssh/allowed_signers
-[commit]
-	gpgsign = true
 [credential "https://dev.azure.com"]
 	useHttpPath = true
 [credential "https://codeberg.org"]
 	provider = generic
 	helper = osxkeychain
+
+# MACHINE-SPECIFIC SETTINGS GO IN ~/.gitconfig.local, WHICH IS NOT TRACKED.
+# Signing keys, credential helpers and anything else naming an absolute path
+# differ per machine, and a value committed here breaks every other one: a
+# signingkey that names a missing file fails every commit, not just signed ones.
+# The include is last, so the local file overrides what is set above. `path`
+# does not fail when the file is absent, so a machine without one still works.
+[include]
+	path = ~/.gitconfig.local
