@@ -1,0 +1,12 @@
+# Private hosts and addresses live in ~/.ssh/config.local, which is not in this repo.
+Include ~/.ssh/config.local
+
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519
+
+Host github.com
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519

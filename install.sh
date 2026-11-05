@@ -275,6 +275,18 @@ if [[ $response =~ (y|yes|Y) ]]; then
   unlink ~/.config/zed/settings.json > /dev/null 2>&1
   ln -s ~/.dotfiles/configs/zed/settings.json ~/.config/zed/settings.json
   echo -en '\tlinked';ok
+
+  running "~/.ssh/config"
+  mkdir -p ~/.ssh && chmod 700 ~/.ssh
+  chmod 600 ~/.dotfiles/configs/ssh/config
+  if [[ -e ~/.ssh/config && ! -L ~/.ssh/config ]]; then
+      mkdir -p ~/.dotfiles_backup/$now
+      mv ~/.ssh/config ~/.dotfiles_backup/$now/ssh-config
+      echo "backup saved as ~/.dotfiles_backup/$now/ssh-config"
+  fi
+  unlink ~/.ssh/config > /dev/null 2>&1
+  ln -s ~/.dotfiles/configs/ssh/config ~/.ssh/config
+  echo -en '\tlinked';ok
 fi
 
 bot "VIM Setup"
