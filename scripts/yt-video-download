@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+###########################
+# YouTube Video Downloader
+# Downloads YouTube videos at best quality to ~/Downloads/
+# Requires: yt-dlp (brew install yt-dlp)
+#           ffmpeg  (brew install ffmpeg)
+###########################
+
+# Check dependencies
+if ! command -v yt-dlp &> /dev/null; then
+    echo "Error: yt-dlp is not installed"
+    echo "Install with: brew install yt-dlp"
+    exit 1
+fi
+
+if ! command -v ffmpeg &> /dev/null; then
+    echo "Error: ffmpeg is not installed (required to merge audio+video into one file)"
+    echo "Install with: brew install ffmpeg"
+    exit 1
+fi
+
+# Check if URL argument is provided
+if [ $# -eq 0 ]; then
+    echo "Usage: yt-video-download <youtube-url>"
+    echo "Example: yt-video-download https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    exit 1
+fi
+
+# Download video with best quality optimized for Plex
+# Prefer H.264/AAC inside MP4 for maximum direct-play compatibility
+yt-dlp \
+    -f 'bestvideo[vcodec^=avc]+bestaudio[acodec^=mp4a]/bestvideo[vcodec^=avc]+bestaudio/best' \
+    --merge-output-format mp4 \
+    -o "$HOME/Downloads/%(title)s.%(ext)s" \
+    --no-overwrites \
+    "$1"

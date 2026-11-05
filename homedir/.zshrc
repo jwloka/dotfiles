@@ -4,7 +4,9 @@ export PATH=./node_modules/.bin:/usr/local/opt/ruby/bin:$PATH
 export PATH=/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH
 export PATH=/opt/homebrew/opt/apr-util/bin:$PATH
 export PATH=/opt/homebrew/opt/findutils/libexec/gnubin:$PATH
-export PATH=/opt/homebrew/opt/openjdk/bin:$PATH
+# (removed: Homebrew openjdk 26 on PATH — JDK now managed by SDKMAN, see bottom of file)
+# (removed: $JAVA_HOME was never set, so this prepended "/bin" to PATH)
+export PATH=$HOME/.local/bin:$PATH
 
 # if you want to use this, change your non-ascii font to Droid Sans Mono for Awesome
 # POWERLEVEL9K_MODE='awesome-patched'
@@ -39,7 +41,7 @@ export DISABLE_AUTO_TITLE="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.dotfiles/oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(colorize compleat dirpersist autojump history cp brew chucknorris common-aliases docker encode64 git gitfast git-extras git-flow gradle jira mvn node npm sublime sudo vscode yarn)
+plugins=(colorize compleat dirpersist autojump history cp brew chucknorris common-aliases docker encode64 git gitfast git-extras git-flow gradle jira mvn node npm sublime sudo vscode yarn pnpm pnpm-aliases)
 export ZSH=$HOME/.dotfiles/oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 source /opt/homebrew/opt/nvm/nvm.sh
@@ -106,8 +108,36 @@ function options() {
     done
 }
 
+# tongue-in-cheek ai shortcuts
+alias agi="claude --permission-mode bypassPermissions --allow-dangerously-skip-permissions --model default --append-system-prompt \"Current time is: $(date).\""
+alias agit="OMC_TELEGRAM=1 claude --permission-mode bypassPermissions --allow-dangerously-skip-permissions --model default --append-system-prompt \"Current time is: $(date).\""
+alias agir="claude --channels plugin:telegram@claude-plugins-official --permission-mode bypassPermissions --allow-dangerously-skip-permissions --model default --append-system-prompt \"Current time is: $(date).\""
+alias skynet="OMC_TELEGRAM=1 claude --dangerously-skip-permissions --model default --append-system-prompt \"Current time is: $(date).\""
+alias omc='node ~/.claude/plugins/cache/omc/oh-my-claudecode/4.9.3/scripts/run.cjs'
+
 # aliasses
 alias lz='lazygit'
-alias gc='git clean -fdX'
+alias gc='git clean -fdx -e .claude -e .cursor'
 alias go='git open'
+
+export PATH="/opt/homebrew/sbin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/jwloka/.antigravity/antigravity/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+
+# bun completions
+[ -s "/Users/jwloka/.bun/_bun" ] && source "/Users/jwloka/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/jwloka/.lmstudio/bin"
+# End of LM Studio CLI section
+
+# --- SDKMAN (manages JDK/Gradle versions; must stay last so it wins on PATH) ---
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
 

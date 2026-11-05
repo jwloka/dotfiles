@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+###########################
+# YouTube Audio Downloader
+# Downloads YouTube audio as high-quality MP3 optimized for Plexamp
+# Requires: yt-dlp (brew install yt-dlp)
+###########################
+
+# Check if yt-dlp is installed
+if ! command -v yt-dlp &> /dev/null; then
+    echo "Error: yt-dlp is not installed"
+    echo "Install with: brew install yt-dlp"
+    exit 1
+fi
+
+# Check if URL argument is provided
+if [ $# -eq 0 ]; then
+    echo "Usage: yt-audio-download <youtube-url>"
+    echo "Example: yt-audio-download https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    exit 1
+fi
+
+# Download audio optimized for Plexamp
+# - Extract audio only at best quality (320kbps MP3)
+# - Embed thumbnail as album art
+# - Add metadata for proper library organization
+yt-dlp \
+    --extract-audio \
+    --audio-format mp3 \
+    --audio-quality 0 \
+    --embed-thumbnail \
+    --add-metadata \
+    -o "$HOME/Downloads/%(title)s.%(ext)s" \
+    --no-overwrites \
+    "$1"
