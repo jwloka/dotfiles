@@ -105,3 +105,7 @@ alias k='kubectl'
 alias kp='kubectl get pods -o wide'
 alias kdp='kubectl describe pod'
 alias kdn='kubectl describe node'
+
+# Screen Sharing over Tailscale (MagicDNS names)
+alias ss-poe="open vnc://poe"
+alias ss-zio="open vnc://zio"
