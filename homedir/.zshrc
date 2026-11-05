@@ -44,7 +44,6 @@ export DISABLE_AUTO_TITLE="true"
 plugins=(colorize compleat dirpersist autojump history cp brew chucknorris common-aliases docker encode64 git gitfast git-extras git-flow gradle jira mvn node npm sublime sudo vscode yarn pnpm pnpm-aliases)
 export ZSH=$HOME/.dotfiles/oh-my-zsh
 source $ZSH/oh-my-zsh.sh
-source /opt/homebrew/opt/nvm/nvm.sh
 source ~/.dotfiles/docker-aliases.sh
 
 autoload -U add-zsh-hook
@@ -67,7 +66,7 @@ load-nvmrc() {
   if [[ -f .nvmrc && -r .nvmrc ]]; then
     nvm use &> /dev/null
   else
-    nvm use stable
+    nvm use stable &> /dev/null
   fi
 }
 add-zsh-hook chpwd load-nvmrc
