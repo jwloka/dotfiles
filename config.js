@@ -137,6 +137,7 @@ module.exports = {
     "pinentry",
     "pixman",
     "pkg-config",
+    "powerlevel10k", // prompt theme, sourced by .zshrc from $BREW_PREFIX/share
     "python",
     "readline",
     "reattach-to-user-namespace",
