@@ -59,6 +59,13 @@ export DISABLE_AUTO_TITLE="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(colorize compleat dirpersist autojump history cp brew chucknorris common-aliases docker encode64 git gitfast git-extras git-flow gradle jira mvn node npm macos sublime sudo vscode yarn)
 export ZSH=$HOME/.dotfiles/oh-my-zsh
+# `source ~/.zshrc` in a running shell would otherwise define oh-my-zsh's
+# functions while the previous load's aliases are live. common-aliases has the
+# global alias P ('2>&1| pygmentize -l pytb'), which then lands inside
+# omz_urlencode and breaks the title hook after every command. Only global
+# aliases go: all come from oh-my-zsh, which defines them again, while the
+# regular ones from .shellaliases (loaded by .zprofile) would not come back.
+(( ${#galiases} )) && unalias -- ${(k)galiases}
 source $ZSH/oh-my-zsh.sh
 source ~/.dotfiles/docker-aliases.sh
 
