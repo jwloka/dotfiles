@@ -131,10 +131,11 @@ function options() {
 }
 
 # tongue-in-cheek ai shortcuts
-alias agi="claude --permission-mode bypassPermissions --model default --append-system-prompt \"Current time is: $(date).\""
-alias agit="OMC_TELEGRAM=1 claude --permission-mode bypassPermissions --model default --append-system-prompt \"Current time is: $(date).\""
-alias agir="claude --channels plugin:telegram@claude-plugins-official --permission-mode bypassPermissions --model default --append-system-prompt \"Current time is: $(date).\""
-alias skynet="OMC_TELEGRAM=1 claude --dangerously-skip-permissions --model default --append-system-prompt \"Current time is: $(date).\""
+# Single quotes defer $(date) to each run; double quotes froze it at shell start.
+alias agi='claude --permission-mode bypassPermissions --model default --append-system-prompt "Current time is: $(date)."'
+alias agit='OMC_TELEGRAM=1 claude --permission-mode bypassPermissions --model default --append-system-prompt "Current time is: $(date)."'
+alias agir='claude --channels plugin:telegram@claude-plugins-official --permission-mode bypassPermissions --model default --append-system-prompt "Current time is: $(date)."'
+alias skynet='OMC_TELEGRAM=1 claude --dangerously-skip-permissions --model default --append-system-prompt "Current time is: $(date)."'
 alias omc='node ~/.claude/plugins/cache/omc/oh-my-claudecode/4.9.3/scripts/run.cjs'
 
 # aliasses
