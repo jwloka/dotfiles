@@ -92,6 +92,8 @@ load-nvmrc
 [[ $OSTYPE == darwin* ]] && ! ssh-add -l &>/dev/null && ssh-add --apple-load-keychain -q 2>/dev/null
 
 # zsh completions
+# Docker Desktop's CLI completions; must be on fpath before compinit runs
+[ -d ~/.docker/completions ] && fpath=(~/.docker/completions $fpath)
 if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 
@@ -117,6 +119,8 @@ src ${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 src ${BREW_PREFIX}/share/zsh-navigation-tools/zsh-navigation-tools.plugin.zsh
 src "${BREW_PREFIX}/opt/zsh-git-prompt/zshrc.sh"
 src ${BREW_PREFIX}/share/powerlevel10k/powerlevel10k.zsh-theme
+# tabtab completions (pnpm); needs compinit, which ran above
+src ~/.config/tabtab/zsh/__tabtab.zsh
 
 
 function options() {
@@ -137,6 +141,7 @@ alias omc='node ~/.claude/plugins/cache/omc/oh-my-claudecode/4.9.3/scripts/run.c
 alias lz='lazygit'
 alias gc='git clean -fdx -e .claude -e .cursor'
 alias go='git open'
+alias gw='./gradlew'
 
 # yarn shortcuts. These follow the `yarn` plugin's own aliases deliberately:
 # the plugin defines yd as `yarn dev` and yw as `yarn workspace`, and these

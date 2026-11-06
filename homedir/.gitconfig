@@ -171,6 +171,7 @@
 
 [init]
   templatedir = ~/.dotfiles/.git_template
+  defaultBranch = develop
 
 [interactive]
   diffFilter = delta --color-only
