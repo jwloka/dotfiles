@@ -171,8 +171,13 @@ _agix_outside_tmux() {
 
 # agix: agi inside this folder's tmux session, attaching if it already runs.
 # Arguments are quoted twice, once for tmux's shell and once for `zsh -ic`, so
-# a prompt with spaces arrives as one argument.
+# a prompt with spaces arrives as one argument. --help is answered here: passed
+# on, claude would print it inside a tmux session that closes as it exits.
 agix() {
+  if [[ $1 == (-h|--help) ]]; then
+    agixc --help
+    return
+  fi
   _agix_outside_tmux || return 1
   local cmd="agi ${(j: :)${(q)@}}"
   tmux new -A -s "$(_agix_session)" "zsh -ic ${(q)cmd}"
