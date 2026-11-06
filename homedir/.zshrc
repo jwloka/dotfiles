@@ -131,12 +131,59 @@ function options() {
 }
 
 # tongue-in-cheek ai shortcuts
-# Single quotes defer $(date) to each run; double quotes froze it at shell start.
-alias agi='claude --permission-mode bypassPermissions --model default --append-system-prompt "Current time is: $(date)."'
-alias agit='OMC_TELEGRAM=1 claude --permission-mode bypassPermissions --model default --append-system-prompt "Current time is: $(date)."'
-alias agir='claude --channels plugin:telegram@claude-plugins-official --permission-mode bypassPermissions --model default --append-system-prompt "Current time is: $(date)."'
-alias skynet='OMC_TELEGRAM=1 claude --dangerously-skip-permissions --model default --append-system-prompt "Current time is: $(date)."'
+# agi is the base; x runs it in this folder's tmux session, c continues the last
+# conversation, r adds the Telegram channel for remote use.
+#
+# Functions rather than aliases: $(date) runs on each call, and `zsh -ic agi`
+# (see agix) can call them. The unalias lets a running shell that still has
+# the old aliases re-source this file; zsh refuses to define a function over one.
+unalias agi agit agir skynet 2>/dev/null
+agi() {
+  claude --permission-mode bypassPermissions --model default --append-system-prompt "Current time is: $(date)." "$@"
+}
+agir() {
+  claude --channels plugin:telegram@claude-plugins-official --permission-mode bypassPermissions --model default --append-system-prompt "Current time is: $(date)." "$@"
+}
+skynet() {
+  OMC_TELEGRAM=1 claude --dangerously-skip-permissions --model default --append-system-prompt "Current time is: $(date)." "$@"
+}
 alias omc='node ~/.claude/plugins/cache/omc/oh-my-claudecode/4.9.3/scripts/run.cjs'
+
+# One tmux session per folder. tmux reads "." and ":" in a target as
+# window/pane separators, so they become "_". Commands run through `zsh -ic`
+# because tmux starts them without .zshrc, where agi would not exist.
+_agix_session() { print -r -- "claude-${${PWD:t}//[.:]/_}"; }
+_agix_outside_tmux() {
+  [[ -z "$TMUX" ]] && return 0
+  print -u2 "Already inside tmux (session: ${$(tmux display-message -p '#S' 2>/dev/null):-unknown})."
+  return 1
+}
+
+# agix: agi inside this folder's tmux session, attaching if it already runs.
+# Arguments are quoted twice, once for tmux's shell and once for `zsh -ic`, so
+# a prompt with spaces arrives as one argument.
+agix() {
+  _agix_outside_tmux || return 1
+  local cmd="agi ${(j: :)${(q)@}}"
+  tmux new -A -s "$(_agix_session)" "zsh -ic ${(q)cmd}"
+}
+
+# agixc: like agix, but a new session continues this folder's last conversation.
+agixc() {
+  _agix_outside_tmux || return 1
+  local s="$(_agix_session)"
+  if tmux has-session -t "=$s" 2>/dev/null; then
+    print "Attaching to existing session '$s'."
+    tmux attach -t "=$s"
+    return
+  fi
+  print "Starting '$s' and resuming the last conversation here."
+  tmux new -s "$s" "zsh -ic 'agi --continue'"
+}
+
+# Former names, kept while habits catch up.
+alias agit=agix
+alias agimove=agixc
 
 # aliasses
 alias lz='lazygit'
