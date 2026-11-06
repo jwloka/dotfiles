@@ -20,7 +20,16 @@ export PATH="$PATH:/Users/jwloka/.lmstudio/bin"
 # `pnpm` crashes on. POSIX sh syntax, because this file is shell-agnostic.
 if [ -r "$HOME/.nvm/alias/default" ]; then
   _pn=$(cat "$HOME/.nvm/alias/default" 2>/dev/null)
-  _pb=$(ls -d "$HOME"/.nvm/versions/node/v"${_pn#v}"*/bin 2>/dev/null | sort -V | tail -1)
+  # The alias may name another alias ("lts/*" → "lts/lithium" → "v26.13.0");
+  # follow the chain, and give up unless it ends at a version.
+  _hop=0
+  while [ -f "$HOME/.nvm/alias/$_pn" ] && [ $_hop -lt 5 ]; do
+    _pn=$(cat "$HOME/.nvm/alias/$_pn" 2>/dev/null); _hop=$((_hop + 1))
+  done
+  unset _hop
+  case "${_pn#v}" in [0-9]*) ;; *) _pn= ;; esac
+  _pb=
+  [ -n "$_pn" ] && _pb=$(ls -d "$HOME"/.nvm/versions/node/v"${_pn#v}"*/bin 2>/dev/null | sort -V | tail -1)
   if [ -n "$_pb" ] && [ -x "$_pb/node" ]; then
     case ":$PATH:" in
       ":$_pb:"*) : ;;

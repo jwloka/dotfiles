@@ -43,6 +43,14 @@ function precmd () {
 # for every shell including each command an agent spawns.
 if [ -z "${PLOT_NODE_ON_PATH:-}" ]; then
   _nvm_want="$(cat "$HOME/.nvm/alias/default" 2>/dev/null)"
+  # It may also name another alias ("lts/*" → "lts/lithium" → "v26.13.0");
+  # follow the chain, and give up unless it ends at a version.
+  _nvm_hop=0
+  while [ -f "$HOME/.nvm/alias/$_nvm_want" ] && [ $_nvm_hop -lt 5 ]; do
+    _nvm_want="$(cat "$HOME/.nvm/alias/$_nvm_want" 2>/dev/null)"; _nvm_hop=$((_nvm_hop + 1))
+  done
+  unset _nvm_hop
+  case "${_nvm_want#v}" in [0-9]*) ;; *) _nvm_want= ;; esac
   if [ -n "$_nvm_want" ]; then
     # `alias/default` may hold a bare major ("24"); the newest match wins.
     _nvm_bin="$(command ls -d "$HOME"/.nvm/versions/node/v"${_nvm_want#v}"*/bin 2>/dev/null | sort -V | tail -1)"

@@ -30,6 +30,14 @@ unset _hl
 # `.zprofile` exists to repair.
 _plot_node_first() {
   _pn="$(cat "$HOME/.nvm/alias/default" 2>/dev/null)"
+  # `alias/default` may name another alias ("lts/*" → "lts/lithium" → "v26.13.0");
+  # follow the chain, and give up unless it ends at a version.
+  _hop=0
+  while [ -f "$HOME/.nvm/alias/$_pn" ] && [ $_hop -lt 5 ]; do
+    _pn="$(cat "$HOME/.nvm/alias/$_pn" 2>/dev/null)"; _hop=$((_hop + 1))
+  done
+  unset _hop
+  case "${_pn#v}" in [0-9]*) ;; *) _pn= ;; esac
   [ -n "$_pn" ] || { unset _pn; return 0; }
   _pb="$(command ls -d "$HOME"/.nvm/versions/node/v"${_pn#v}"*/bin 2>/dev/null | sort -V | tail -1)"
   if [ -n "$_pb" ] && [ -x "$_pb/node" ]; then
