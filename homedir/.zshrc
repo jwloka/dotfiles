@@ -140,6 +140,8 @@ function options() {
 # tongue-in-cheek ai shortcuts
 # agi is the base; x runs it in this folder's tmux session, c continues the last
 # conversation, r adds the Telegram channel for remote use.
+# Usage, including moving a running session into tmux: `agixc --help`. The text
+# lives in the function so that `which agixc` shows it too.
 #
 # Functions rather than aliases: $(date) runs on each call, and `zsh -ic agi`
 # (see agix) can call them. The unalias lets a running shell that still has
@@ -177,6 +179,22 @@ agix() {
 
 # agixc: like agix, but a new session continues this folder's last conversation.
 agixc() {
+  if [[ $1 == (-h|--help) ]]; then
+    print -r -- '
+Usage:
+  agi "fix the build"     Claude without permission prompts
+  agix "fix the build"    the same inside tmux session claude-<folder>
+  agixc                   attach to that session, or start one that continues
+                          this folder'"'"'s last conversation
+
+Move a running Claude session into tmux (a running process cannot be moved,
+but its conversation can):
+  1. quit Claude: /exit or Ctrl-C twice
+  2. agixc        in the same folder; the conversation resumes inside tmux
+  3. Ctrl-b d     detaches; Claude keeps running
+  4. agixc        reattaches later, also over ssh from another machine'
+    return
+  fi
   _agix_outside_tmux || return 1
   local s="$(_agix_session)"
   if tmux has-session -t "=$s" 2>/dev/null; then
