@@ -146,7 +146,8 @@ function options() {
 # Functions rather than aliases: $(date) runs on each call, and `zsh -ic agi`
 # (see agix) can call them. The unalias lets a running shell that still has
 # the old aliases re-source this file; zsh refuses to define a function over one.
-unalias agi agit agir skynet 2>/dev/null
+# agit and agimove are the former names of agix and agixc; this drops them too.
+unalias agi agit agimove agir skynet 2>/dev/null
 agi() {
   claude --permission-mode bypassPermissions --model default --append-system-prompt "Current time is: $(date)." "$@"
 }
@@ -205,10 +206,6 @@ but its conversation can):
   print "Starting '$s' and resuming the last conversation here."
   tmux new -s "$s" "zsh -ic 'agi --continue'"
 }
-
-# Former names, kept while habits catch up.
-alias agit=agix
-alias agimove=agixc
 
 # aliasses
 alias lz='lazygit'
