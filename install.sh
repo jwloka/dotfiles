@@ -349,6 +349,11 @@ bot "installing packages from config.js..."
 node index.js
 ok
 
+# corepack (installed from config.js) provides pnpm; Node 25+ no longer bundles it
+running "enable pnpm via corepack"
+corepack enable pnpm
+ok
+
 running "cleanup homebrew"
 brew cleanup --force > /dev/null 2>&1
 rm -f -r /Library/Caches/Homebrew/* > /dev/null 2>&1

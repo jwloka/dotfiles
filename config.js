@@ -273,6 +273,7 @@ module.exports = {
   gem: [],
   npm: [
     "antic",
+    "corepack",
     //'buzzphrase',
     "eslint",
     //'instant-markdown-d',
