@@ -135,6 +135,16 @@ src ${BREW_PREFIX}/share/zsh-history-substring-search/zsh-history-substring-sear
 src ${BREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 src ${BREW_PREFIX}/share/zsh-navigation-tools/zsh-navigation-tools.plugin.zsh
 src "${BREW_PREFIX}/opt/zsh-git-prompt/zshrc.sh"
+# Containers set none of the SSH variables, so p10k would call them local and
+# hide the host. Pre-set P9K_SSH=1 to put the context segment in its REMOTE
+# state; p10k keeps an already-set value (internal/p10k.zsh, _p9k_init_ssh).
+if [[ -f /.dockerenv || -f /run/.containerenv ]] ||
+   { [[ -r /proc/1/cgroup ]] && grep -qE '(docker|containerd|kubepods|libpod)' /proc/1/cgroup 2>/dev/null }; then
+    # _p9k_init_ssh returns early only when _P9K_SSH_TTY matches the current
+    # TTY; set both or it resets P9K_SSH to 0.
+    typeset -gix P9K_SSH=1
+    typeset -gx _P9K_SSH_TTY=$TTY
+fi
 src ${BREW_PREFIX}/share/powerlevel10k/powerlevel10k.zsh-theme
 # tabtab completions (pnpm); needs compinit, which ran above
 src ~/.config/tabtab/zsh/__tabtab.zsh
