@@ -67,8 +67,10 @@ export DISABLE_AUTO_TITLE="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.dotfiles/oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(colorize compleat dirpersist autojump history cp brew chucknorris common-aliases docker encode64 git gitfast git-extras git-flow gradle jira mvn node npm macos sublime sudo vscode yarn)
+plugins=(colorize compleat dirpersist autojump history cp brew chucknorris common-aliases docker encode64 git gitfast git-extras git-flow gradle jira mvn node npm macos sublime sudo vscode yarn pnpm pnpm-aliases)
 export ZSH=$HOME/.dotfiles/oh-my-zsh
+# third-party plugins oh-my-zsh does not ship (submodules under zsh-custom/)
+export ZSH_CUSTOM=$HOME/.dotfiles/zsh-custom
 # `source ~/.zshrc` in a running shell would otherwise define oh-my-zsh's
 # functions while the previous load's aliases are live. common-aliases has the
 # global alias P ('2>&1| pygmentize -l pytb'), which then lands inside

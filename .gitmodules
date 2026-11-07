@@ -7,3 +7,9 @@
 [submodule "homedir/.vim/bundle/Vundle.vim"]
 	path = homedir/.vim/bundle/Vundle.vim
 	url = https://github.com/VundleVim/Vundle.vim.git
+[submodule "zsh-custom/plugins/pnpm"]
+	path = zsh-custom/plugins/pnpm
+	url = https://github.com/baliestridev/pnpm.plugin.zsh.git
+[submodule "zsh-custom/vendor/omz-plugin-pnpm"]
+	path = zsh-custom/vendor/omz-plugin-pnpm
+	url = https://github.com/ntnyq/omz-plugin-pnpm.git
