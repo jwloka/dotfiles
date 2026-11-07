@@ -31,7 +31,17 @@ export PATH=$HOME/.local/bin:$PATH
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
 # https://github.com/bhilburn/powerlevel9k#customizing-prompt-segments
 # https://github.com/bhilburn/powerlevel9k/wiki/Stylizing-Your-Prompt
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir nvm vcs)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir nvm vcs)
+# context: hostname only, and only over SSH; empty elsewhere so the segment hides
+POWERLEVEL9K_CONTEXT_TEMPLATE='%m'
+POWERLEVEL9K_CONTEXT_DEFAULT_CONTENT_EXPANSION=''
+POWERLEVEL9K_CONTEXT_ROOT_CONTENT_EXPANSION=''
+POWERLEVEL9K_CONTEXT_REMOTE_CONTENT_EXPANSION='%m'
+POWERLEVEL9K_CONTEXT_REMOTE_SUDO_CONTENT_EXPANSION='%m'
+POWERLEVEL9K_CONTEXT_REMOTE_FOREGROUND='000'
+POWERLEVEL9K_CONTEXT_REMOTE_BACKGROUND='214'
+POWERLEVEL9K_CONTEXT_REMOTE_SUDO_FOREGROUND='000'
+POWERLEVEL9K_CONTEXT_REMOTE_SUDO_BACKGROUND='214'
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status history time)
 # colorcode test
 # for code ({000..255}) print -P -- "$code: %F{$code}This is how your text would look like%f"
