@@ -107,6 +107,8 @@ load-nvmrc() {
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
 
+# point the shell at the launchd ssh-agent when the terminal did not inherit it
+[[ $OSTYPE == darwin* && -z $SSH_AUTH_SOCK ]] && export SSH_AUTH_SOCK=$(echo /var/run/com.apple.launchd.*/Listeners(N[1]))
 # load ssh keys (commit signing) from the macOS Keychain after a restart
 [[ $OSTYPE == darwin* ]] && ! ssh-add -l &>/dev/null && ssh-add --apple-load-keychain -q 2>/dev/null
 
