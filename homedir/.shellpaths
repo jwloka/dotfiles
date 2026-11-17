@@ -16,3 +16,6 @@ export PATH="/opt/homebrew/bin:$PATH"
 
 # The next line enables shell command completion for gcloud.
 #source "/Users/$(whoami)/Downloads/google-cloud-sdk/completion.zsh.inc"
+
+# Docker Desktop CLI tools (docker, docker-compose, kubectl)
+export PATH=$PATH:~/.docker/bin
