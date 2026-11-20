@@ -269,6 +269,18 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$PATH:/Users/jwloka/.lmstudio/bin"
 # End of LM Studio CLI section
 
+# --- bb über SSH/tmux ---
+# Ausserhalb einer Aqua-Sitzung durchsucht `security` nur System.keychain;
+# bb findet sein Token im Login-Schlüsselbund dann nicht. Token nur an bb selbst übergeben.
+if [[ "$(launchctl managername 2>/dev/null)" != "Aqua" ]]; then
+  bb() {
+    local kc=~/Library/Keychains/login.keychain-db
+    BB_EMAIL="$(security find-generic-password -s com.quatico.bitbucket-cli -a email -w $kc 2>/dev/null)" \
+    BB_TOKEN="$(security find-generic-password -s com.quatico.bitbucket-cli -a token -w $kc 2>/dev/null)" \
+    command bb "$@"
+  }
+fi
+
 # --- SDKMAN (manages JDK/Gradle versions; must stay last so it wins on PATH) ---
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
