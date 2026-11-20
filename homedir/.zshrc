@@ -269,7 +269,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$PATH:/Users/jwloka/.lmstudio/bin"
 # End of LM Studio CLI section
 
-# --- bb über SSH/tmux ---
+# --- bb und jen über SSH/tmux ---
 # Ausserhalb einer Aqua-Sitzung durchsucht `security` nur System.keychain;
 # bb findet sein Token im Login-Schlüsselbund dann nicht. Token nur an bb selbst übergeben.
 if [[ "$(launchctl managername 2>/dev/null)" != "Aqua" ]]; then
@@ -279,6 +279,8 @@ if [[ "$(launchctl managername 2>/dev/null)" != "Aqua" ]]; then
     BB_TOKEN="$(security find-generic-password -s com.quatico.bitbucket-cli -a token -w $kc 2>/dev/null)" \
     command bb "$@"
   }
+  # jen kann hier nicht in den Schlüsselbund schreiben; Geheimnisse als 0600-Dateien unter ~/.config/jen/
+  export JEN_SECRET_BACKEND=file
 fi
 
 # --- SDKMAN (manages JDK/Gradle versions; must stay last so it wins on PATH) ---
