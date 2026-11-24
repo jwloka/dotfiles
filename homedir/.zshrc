@@ -283,6 +283,38 @@ if [[ "$(launchctl managername 2>/dev/null)" != "Aqua" ]]; then
   export JEN_SECRET_BACKEND=file
 fi
 
+# --- Plot-Board mit Jira-Zugang und Schaltern im Tailnet ---
+# Das Board liest die .env nicht selbst und nimmt Schreibzugriffe nur von
+# localhost an. plotboard startet es im aktuellen Repo mit JIRA_* aus dessen
+# .env, erlaubt die Tailnet-Adresse dieses Rechners als Origin und richtet
+# `tailscale serve` auf den Board-Port ein. Weitere Argumente gehen an
+# plot-boardctl.sh --start (z. B. --port N).
+plotboard() {
+  local root s port host
+  root=$(git rev-parse --show-toplevel 2>/dev/null) || { echo "plotboard: kein Git-Repo" >&2; return 1; }
+  s=$(ls -d ~/.claude/plugins/cache/plot-marketplace/plot/*/skills/plot/scripts 2>/dev/null | sort -V | tail -1)
+  [[ -n $s ]] || { echo "plotboard: Plot ist nicht installiert" >&2; return 1; }
+  port=$(sed -n 's/^- \*\*Board port:\*\* *\([0-9][0-9]*\).*/\1/p' "$root/AGENTS.md" "$root/CLAUDE.md" 2>/dev/null | head -1)
+  port=${port:-7777}
+  host=$(tailscale status --self --json 2>/dev/null | jq -r '.Self.DNSName // empty' 2>/dev/null)
+  host=${host%.}
+  (
+    cd "$root" || exit 1
+    local v val
+    for v in JIRA_EMAIL JIRA_API_TOKEN; do
+      val=$(sed -n "s/^$v=//p" .env 2>/dev/null | head -1)
+      [[ -n $val ]] && export "$v=$val"
+    done
+    if [[ -n $host ]]; then
+      export PLOT_BOARD_ORIGINS="https://$host:$port"
+      tailscale serve status 2>/dev/null | grep -q "$host:$port" \
+        || tailscale serve --bg --https="$port" "http://127.0.0.1:$port" >/dev/null
+    fi
+    "$s/plot-boardctl.sh" --start "$@"
+  )
+  [[ -n $host ]] && echo "  tailnet: https://$host:$port/"
+}
+
 # --- SDKMAN (manages JDK/Gradle versions; must stay last so it wins on PATH) ---
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
