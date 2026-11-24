@@ -54,3 +54,7 @@ _plot_node_first
 # macOS Keychain, service "jira-api-token"; nothing secret is stored here.
 export JIRA_EMAIL="jan.wloka@quatico.com"
 export JIRA_API_TOKEN="$(security find-generic-password -s jira-api-token -w 2>/dev/null)"
+
+# OpenRouter API key. Lives in the macOS Keychain, service "openrouter-api-key";
+# nothing secret is stored here.
+export OPENROUTER_API_KEY="$(security find-generic-password -s openrouter-api-key -w 2>/dev/null)"
