@@ -53,7 +53,7 @@ _plot_node_first
 # Jira Cloud REST auth (used by Plot's tracker connector). Token lives in the
 # macOS Keychain, service "jira-api-token"; nothing secret is stored here.
 export JIRA_EMAIL="jan.wloka@quatico.com"
-export JIRA_API_TOKEN="$(security find-generic-password -s jira-api-token -w 2>/dev/null)"
+export JIRA_API_TOKEN="$(security find-generic-password -s jira-api-token -w "$HOME/Library/Keychains/login.keychain-db" 2>/dev/null)"
 
 # OpenRouter API key. Lives in the macOS Keychain, service "openrouter-api-key";
 # nothing secret is stored here.
